@@ -133,12 +133,3 @@ ReportRouter.get('/view-reports', async (req: Request, res: Response) => {
     ...hostDetails,
   });
 });
-
-ReportRouter.get('/clean-reports', async (req: Request, res: Response) => {
-  const hostDetails = getTemplateVariables('Clear Report Cache');
-
-  res.render('clean-reports', {
-    reports: ReportStore.cleanReports(),
-    ...hostDetails,
-  });
-});
