@@ -33,37 +33,69 @@ console.log(
 
 // Learn more about noise and scaling from the Private Aggregation fundamentals
 // documentation on Chrome blog
-const SCALE_FACTOR = 65536;
+const SCALE_FACTOR = 1; // max 65536
+
 function convertContentIdToBucket(contentId) {
   return BigInt(contentId);
 }
 
+/* 
+Using Aggrigation key method documented here : 
+https://developers.google.com/privacy-sandbox/private-advertising/private-aggregation/fundamentals#aggregation-key
+
+we convert our data into a key 
+
+Expected data format 
+Content ID (first 4 digits) | Geo ID  (next 3 digits)  | Creative ID (last 5 digits)
+
+ex 012323610055
+
+Content ID  | Geo ID  | Creative ID
+0123           236       10055
+
+EX
+data: {
+      contentId: 1234, /// 4 digit campaign id
+      geo: 236, //  3 digit GEO Identifier
+      creativeId: 10055,  // 5 digit creative id
+    },
+
+**/
+async function convertToBucket(data) {
+  return data.contentId + data.geo + data.creativeId;
+}
+
 class ReachMeasurementOperation {
   async run(data) {
-    const {contentId} = data;
-
-    // Read from Shared Storage
-    const key = 'has-reported-content: ' + contentId;
-    const hasReportedContent = (await sharedStorage.get(key)) === 'true';
-
-    // Do not report if a report has been sent already
-    if (hasReportedContent) {
-      console.log('Content ID already seen:  ' + key);
-      return;
-    }
-
+    console.log('data:  ', data);
     // Generate the aggregation key and the aggregatable value
-    const bucket = convertContentIdToBucket(contentId);
+    const bucket = await convertToBucket(data);
     const value = 1 * SCALE_FACTOR;
 
     console.log('bucket:', bucket);
 
-    // Send an aggregatable report via the Private Aggregation API
-    console.log('contributeToHistogram:');
-    privateAggregation.contributeToHistogram({bucket, value});
-    // Set the report submission status flag
-    console.log('Shared Storage key ' + key + ' stored');
-    await sharedStorage.set(key, true);
+    /**** Setting Debug */
+    privateAggregation.enableDebugMode();
+
+    // Read from Shared Storage
+    const key = 'has-reported-content: ' + bucket;
+    const hasReportedContent = (await sharedStorage.get(key)) === 'true';
+
+    // const hasReportedContent = false;
+    // console.log(' ******* SHARED STORGE CHECK OVERIDE ')
+
+    // Do not report if a report has been sent already
+    if (hasReportedContent) {
+      console.log('Bucket ID already seen:  ' + key);
+      return;
+    } else {
+      // Send an aggregatable report via the Private Aggregation API
+      console.log('contributeToHistogram:');
+      privateAggregation.contributeToHistogram({bucket, value});
+      // Set the report submission status flag
+      console.log('Shared Storage key ' + key + ' stored');
+      await sharedStorage.set(key, true);
+    }
   }
 }
 

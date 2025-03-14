@@ -33,12 +33,18 @@ async function measureUniqueReach() {
     '/js/reach-measurement-worklet.js',
   );
 
+  //const contentId = Date.now().toString().slice(-4); //random(ish) 4 digit contentID
+  const contentId = '1111'; //staticly set id
+  const contentIds = ['1111']; //, "1011", "1101", "1110", "0111", "1100", "1001"];
+  const random = Math.floor(Math.random() * contentIds.length);
+
   // Run the reach measurement operation
   await window.sharedStorage.run('reach-measurement', {
+    'privateAggregationConfig': {'contextId': 'example_string', contentId},
     data: {
-      contentId: Date.now(),
-      geo: 'san jose',
-      creativeId: '55',
+      contentId: contentIds[random], /// 4 digit campaign id
+      geo: 222, // GEO Identifier
+      creativeId: 33333, // 5 digit creative id
     },
   });
 }
