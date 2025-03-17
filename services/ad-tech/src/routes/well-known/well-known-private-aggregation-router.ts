@@ -12,7 +12,11 @@
  */
 
 import express, {Request, Response} from 'express';
-import {ReportStore, ReportCategory} from '../../controllers/report-store.js';
+import {
+  ReportStore,
+  ReportCategory,
+  ReportCategoryDesc,
+} from '../../controllers/report-store.js';
 
 /**
  * This router is responsible for handling the well-known endpoints for the
@@ -38,6 +42,7 @@ WellKnownPrivateAggregationRouter.post(
     );
     ReportStore.addReport({
       category: ReportCategory.PAGG_VIA_SS,
+      categoryDesc: ReportCategoryDesc.PAGG_VIA_SS,
       timestamp: Date.now().toString(),
       data: req.body,
     });
@@ -55,6 +60,7 @@ WellKnownPrivateAggregationRouter.post(
     );
     ReportStore.addReport({
       category: ReportCategory.PAGG_VIA_SS_DEBUG,
+      categoryDesc: ReportCategoryDesc.PAGG_VIA_SS_DEBUG,
       timestamp: Date.now().toString(),
       data: req.body,
     });
@@ -75,6 +81,7 @@ WellKnownPrivateAggregationRouter.post(
     );
     ReportStore.addReport({
       category: ReportCategory.PAGG_VIA_PAAPI,
+      categoryDesc: ReportCategoryDesc.PAGG_VIA_PAAPI,
       timestamp: Date.now().toString(),
       data: req.body,
     });
@@ -92,6 +99,7 @@ WellKnownPrivateAggregationRouter.post(
     );
     ReportStore.addReport({
       category: ReportCategory.PAGG_VIA_PAAPI_DEBUG,
+      categoryDesc: ReportCategoryDesc.PAGG_VIA_PAAPI_DEBUG,
       timestamp: Date.now().toString(),
       data: req.body,
     });

@@ -35,7 +35,7 @@ async function measureUniqueReach() {
 
   //const contentId = Date.now().toString().slice(-4); //random(ish) 4 digit contentID
   const contentId = '1111'; //staticly set id
-  const contentIds = ['1111']; //, "1011", "1101", "1110", "0111", "1100", "1001"];
+  const contentIds = ['1111', '1011', '1101', '1110', '0111', '1100', '1001'];
   const random = Math.floor(Math.random() * contentIds.length);
 
   // Run the reach measurement operation

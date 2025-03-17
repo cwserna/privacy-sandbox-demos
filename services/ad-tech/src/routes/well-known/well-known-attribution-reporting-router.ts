@@ -13,7 +13,11 @@
 
 import cbor from 'cbor';
 import express, {Request, Response} from 'express';
-import {ReportStore, ReportCategory} from '../../controllers/report-store.js';
+import {
+  ReportStore,
+  ReportCategory,
+  ReportCategoryDesc,
+} from '../../controllers/report-store.js';
 import {decodeBucket} from '../../lib/arapi.js';
 
 /**
@@ -39,6 +43,7 @@ WellKnownAttributionReportingRouter.post(
     );
     ReportStore.addReport({
       category: ReportCategory.ARA_EVENT_LEVEL,
+      categoryDesc: ReportCategoryDesc.ARA_EVENT_LEVEL,
       timestamp: Date.now().toString(),
       data: req.body,
     });
@@ -56,6 +61,7 @@ WellKnownAttributionReportingRouter.post(
     );
     ReportStore.addReport({
       category: ReportCategory.ARA_EVENT_LEVEL_DEBUG,
+      categoryDesc: ReportCategoryDesc.ARA_EVENT_LEVEL_DEBUG,
       timestamp: Date.now().toString(),
       data: req.body,
     });
@@ -78,6 +84,7 @@ WellKnownAttributionReportingRouter.post(
     );
     ReportStore.addReport({
       category: ReportCategory.ARA_AGGREGATE,
+      categoryDesc: ReportCategoryDesc.ARA_AGGREGATE,
       timestamp: Date.now().toString(),
       data: report,
     });
@@ -117,6 +124,7 @@ WellKnownAttributionReportingRouter.post(
     // Save to global storage
     ReportStore.addReport({
       category: ReportCategory.ARA_AGGREGATE_DEBUG,
+      categoryDesc: ReportCategoryDesc.ARA_AGGREGATE_DEBUG,
       timestamp: Date.now().toString(),
       data: debugReport,
     });

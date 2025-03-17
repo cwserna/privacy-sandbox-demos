@@ -15,6 +15,7 @@ import express, {Request, Response} from 'express';
 import {
   Report,
   ReportCategory,
+  ReportCategoryDesc,
   ReportStore,
 } from '../../controllers/report-store.js';
 import {
@@ -77,6 +78,7 @@ const setAttributionReportingHeaders = (req: Request, res: Response) => {
 ReportRouter.get('/', async (req: Request, res: Response) => {
   const report: Report = {
     category: ReportCategory.EVENT_LEVEL_LOG,
+    categoryDesc: ReportCategoryDesc.EVENT_LEVEL_LOG,
     timestamp: Date.now().toString(),
     data: req.query,
   };
@@ -99,6 +101,7 @@ ReportRouter.get('/', async (req: Request, res: Response) => {
 ReportRouter.post('/', async (req: Request, res: Response) => {
   const report: Report = {
     category: ReportCategory.EVENT_LEVEL_LOG,
+    categoryDesc: ReportCategoryDesc.EVENT_LEVEL_LOG,
     timestamp: Date.now().toString(),
     data: {
       ...req.query,

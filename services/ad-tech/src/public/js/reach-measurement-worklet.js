@@ -33,7 +33,7 @@ console.log(
 
 // Learn more about noise and scaling from the Private Aggregation fundamentals
 // documentation on Chrome blog
-const SCALE_FACTOR = 1; // max 65536
+const SCALE_FACTOR = 65536; // max 65536
 
 function convertContentIdToBucket(contentId) {
   return BigInt(contentId);
@@ -80,15 +80,18 @@ class ReachMeasurementOperation {
     // Read from Shared Storage
     const key = 'has-reported-content: ' + bucket;
     const hasReportedContent = (await sharedStorage.get(key)) === 'true';
-
-    // const hasReportedContent = false;
-    // console.log(' ******* SHARED STORGE CHECK OVERIDE ')
+    //const hasReportedContent = false;
+    //console.log(' ******* SHARED STORGE CHECK OVERIDE ')
 
     // Do not report if a report has been sent already
     if (hasReportedContent) {
       console.log('Bucket ID already seen:  ' + key);
+      console.log('TODO:  Look into Debugging not being sent here:  ' + key);
+      const value = 0;
+      privateAggregation.contributeToHistogram({bucket, value});
       return;
     } else {
+      const value = 1 * SCALE_FACTOR;
       // Send an aggregatable report via the Private Aggregation API
       console.log('contributeToHistogram:');
       privateAggregation.contributeToHistogram({bucket, value});

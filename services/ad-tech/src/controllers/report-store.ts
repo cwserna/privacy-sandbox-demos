@@ -18,20 +18,33 @@ import NodeCache from 'node-cache';
 
 /** Basic categories of reports. */
 export enum ReportCategory {
-  EVENT_LEVEL_LOG,
-  ARA_EVENT_LEVEL,
-  ARA_EVENT_LEVEL_DEBUG,
-  ARA_AGGREGATE,
-  ARA_AGGREGATE_DEBUG,
-  PAGG_VIA_SS,
-  PAGG_VIA_SS_DEBUG,
-  PAGG_VIA_PAAPI,
-  PAGG_VIA_PAAPI_DEBUG,
+  EVENT_LEVEL_LOG, //Category 0
+  ARA_EVENT_LEVEL, //Category 1
+  ARA_EVENT_LEVEL_DEBUG, //Category 2
+  ARA_AGGREGATE, //Category 3
+  ARA_AGGREGATE_DEBUG, //Category 4
+  PAGG_VIA_SS, //Category 5
+  PAGG_VIA_SS_DEBUG, //Category 6
+  PAGG_VIA_PAAPI, //Category 7
+  PAGG_VIA_PAAPI_DEBUG, //Category 8
+}
+
+export enum ReportCategoryDesc {
+  EVENT_LEVEL_LOG = 'Event Level Log',
+  ARA_EVENT_LEVEL = 'ARA Event Level',
+  ARA_EVENT_LEVEL_DEBUG = 'ARA EVENT LEVEL DEBUG',
+  ARA_AGGREGATE = 'ARA AGGREGATE',
+  ARA_AGGREGATE_DEBUG = 'ARA AGGREGATE Debug',
+  PAGG_VIA_SS = 'Private Aggregation via Shared Storage',
+  PAGG_VIA_SS_DEBUG = 'Private Aggregation via Shared Storage Debug',
+  PAGG_VIA_PAAPI = 'Private Aggregation via Protectied Audiance',
+  PAGG_VIA_PAAPI_DEBUG = 'Private Aggregation via Protectied Audiance Debug',
 }
 
 /** High-level abstraction of a report. */
 export interface Report {
   category: ReportCategory;
+  categoryDesc: ReportCategoryDesc;
   timestamp: string;
   data: any;
 }
